@@ -1,0 +1,288 @@
+class Character:
+    def __init__(self, name, character_class):
+        self.name = name
+        self.character_class = character_class
+        self.attributes = {
+            "attack": 0,
+            "defense": 0,
+            "health": 0,
+            "mana": 0,  # For mages
+            "agility": 0  # For hunters
+        }
+
+    def set_attributes(self):
+        if self.character_class == "Warrior":
+            self.attributes["attack"] = 10
+            self.attributes["defense"] = 8
+            self.attributes["health"] = 150
+        elif self.character_class == "Mage":
+            self.attributes["attack"] = 6
+            self.attributes["defense"] = 4
+            self.attributes["health"] = 100
+            self.attributes["mana"] = 100
+        elif self.character_class == "Hunter":
+            self.attributes["attack"] = 8
+            self.attributes["defense"] = 6
+            self.attributes["health"] = 120
+            self.attributes["agility"] = 10
+
+    def display_attributes(self):
+        print(f"**{self.name}**")
+        print(f"Class: {self.character_class}")
+        for attribute, value in self.attributes.items():
+            print(f"{attribute}: {value}")
+
+def create_character():
+    name = input("أدخل اسم شخصيتك: ")
+    character_class = input("اختر فئة شخصيتك (محارب، ساحر، صياد): ")
+
+    character = Character(name, character_class)
+    character.set_attributes()
+    character.display_attributes()
+
+    return character
+
+# Example usage
+player_character = create_character()
+
+class Battle:
+    def __init__(self, player, enemy):
+        self.player = player
+        self.enemy = enemy
+
+    def start_battle(self):
+        while True:
+            # Player's turn
+            player_action = input("اختر فعل اللاعب (هجوم، دفاع، استخدام عنصر): ")
+            if player_action == "هجوم":
+                self.player_attack()
+            elif player_action == "دفاع":
+                self.player_defend()
+            elif player_action == "استخدام عنصر":
+                # Allow player to select and use an item
+                self.use_player_item()
+            else:
+                print("أمر غير صحيح")
+
+            # Check if enemy is defeated
+            if self.enemy.health <= 0:
+                print(f"{self.player.name} هزم {self.enemy.name}!")
+                break
+
+            # Enemy's turn
+            enemy_action = random.choice(["هجوم", "دفاع"])
+            if enemy_action == "هجوم":
+                self.enemy_attack()
+            elif enemy_action == "دفاع":
+                self.enemy_defend()
+            else:
+                print("خطأ في اختيار العدو")
+
+            # Check if player is defeated
+            if self.player.health <= 0:
+                print(f"{self.enemy.name} هزم {self.player.name}!")
+                break
+
+    def player_attack(self):
+        damage = self.player.attack - self.enemy.defense
+        if damage > 0:
+            self.enemy.health -= damage
+            print(f"{self.player.name} هاجم {self.enemy.name} وألحق به {damage} ضررًا!")
+        else:
+            print(f"{self.player.name} هاجم {self.enemy.name} لكن الهجوم لم يؤثر!")
+
+    def player_defend(self):
+        # Implement player defense logic (reduce damage taken)
+        pass
+
+    def use_player_item(self):
+        # Allow player to select and use an item
+        # Implement item usage logic (heal, buff, etc.)
+        pass
+
+    def enemy_attack(self):
+        damage = self.enemy.attack - self.player.defense
+        if damage > 0:
+            self.player.health -= damage
+            print(f"{self.enemy.name} هاجم {self.player.name} وألحق به {damage} ضررًا!")
+        else:
+            print(f"{self.enemy.name} هاجم {self.player.name} لكن الهجوم لم يؤثر!")
+
+    def enemy_defend(self):
+        # Implement enemy defense logic (reduce damage taken)
+        pass
+
+class Character:
+    def __init__(self, name, character_class):
+        self.name = name
+        self.character_class = character_class
+        self.level = 1
+        self.experience = 0
+        self.attributes = {
+            "attack": 0,
+            "defense": 0,
+            "health": 0,
+            "mana": 0,  # For mages
+            "agility": 0  # For hunters
+        }
+
+    def set_attributes(self):
+        if self.character_class == "Warrior":
+            self.attributes["attack"] = 10
+            self.attributes["defense"] = 8
+            self.attributes["health"] = 150
+        elif self.character_class == "Mage":
+            self.attributes["attack"] = 6
+            self.attributes["defense"] = 4
+            self.attributes["health"] = 100
+            self.attributes["mana"] = 100
+        elif self.character_class == "Hunter":
+            self.attributes["attack"] = 8
+            self.attributes["defense"] = 6
+            self.attributes["health"] = 120
+            self.attributes["agility"] = 10
+
+    def gain_experience(self, experience):
+        self.experience += experience
+
+        # Check for level up
+        while self.experience >= self.get_required_experience():
+            self.level_up()
+
+    def get_required_experience(self):
+        # Implement formula to calculate required experience based on level
+        # For example: 100 * level^2
+        pass
+
+    def level_up(self):
+        self.level += 1
+        self.experience -= self.get_required_experience()
+
+        # Increase attributes based on level and class
+        if self.character_class == "Warrior":
+            self.attributes["attack"] += 2
+            self.attributes["defense"] += 1
+            self.attributes["health"] += 20
+        elif self.character_class == "Mage":
+            self.attributes["attack"] += 1
+            self.attributes["defense"] += 1
+            self.attributes["health"] += 15
+            self.attributes["mana"] += 10
+        elif self.character_class == "Hunter":
+            self.attributes["attack"] += 1
+            self.attributes["defense"] += 1
+            self.attributes["health"] += 15
+            self.attributes["agility"] += 2
+
+        print(f"{self.name} ارتقى إلى المستوى {self.level}!")
+
+    def display_attributes(self):
+        print(f"**{self.name}**")
+        print(f"المستوى: {self.level}")
+        print(f"الخبرة: {self.experience}")
+        for attribute, value in self.attributes.items():
+            print(f"{attribute}: {value}")
+
+class Character:
+    def __init__(self, name, character_class):
+        self.name = name
+        self.character_class = character_class
+        self.level = 1
+        self.experience = 0
+        self.attributes = {
+            "attack": 0,
+            "defense": 0,
+            "health": 0,
+            "mana": 0,  # For mages
+            "agility": 0  # For hunters
+        }
+
+        self.set_attributes()
+
+    def set_attributes(self):
+        if self.character_class == "Warrior":
+            self.attributes["attack"] = 10
+            self.attributes["defense"] = 8
+            self.attributes["health"] = 150
+        elif self.character_class == "Mage":
+            self.attributes["attack"] = 6
+            self.attributes["defense"] = 4
+            self.attributes["health"] = 100
+            self.attributes["mana"] = 100
+        elif self.character_class == "Hunter":
+            self.attributes["attack"] = 8
+            self.attributes["defense"] = 6
+            self.attributes["health"] = 120
+            self.attributes["agility"] = 10
+
+    # ... other methods (gain_experience, get_required_experience, level_up, display_attributes) ...
+
+class CharacterManager:
+    def __init__(self):
+        self.characters = []
+
+    def create_character(self, name, character_class):
+        new_character = Character(name, character_class)
+        self.characters.append(new_character)
+        print(f"تم إنشاء شخصية جديدة باسم {new_character.name}!")
+
+    def display_characters(self):
+        if not self.characters:
+            print("لا توجد شخصيات لعرضها.")
+            return
+
+        for character in self.characters:
+            print("-" * 20)
+            character.display_attributes()
+
+    def select_character(self):
+        if not self.characters:
+            print("لا توجد شخصيات للاختيار من بينها. الرجاء إنشاء شخصية جديدة أولاً.")
+            return None
+
+        self.display_characters()
+
+        while True:
+            choice = input("اختر رقم الشخصية التي تريد استخدامها: ")
+            try:
+                character_index = int(choice) - 1
+                if 0 <= character_index < len(self.characters):
+                    return self.characters[character_index]
+                else:
+                    print("رقم الشخصية غير صحيح. حاول مرة أخرى.")
+            except ValueError:
+                print("المدخلات غير صالحة. يرجى إدخال رقم صحيح.")
+
+# Example usage
+character_manager = CharacterManager()
+
+# Create a new character
+character_manager.create_character("بطل", "محارب")
+
+# Display all characters
+character_manager.display_characters()
+
+# Select a character
+selected_character = character_manager.select_character()
+if selected_character:
+    print(f"تم اختيار الشخصية {selected_character.name}.")
+
+
+class CharacterNFT(ERC721):
+    def __init__(self, character_id, name, character_class, level, attributes):
+        super().__init__(character_id)
+        self.name = name
+        self.character_class = character_class
+        self.level = level
+        self.attributes = attributes
+
+# Create a new character NFT
+character_nft = CharacterNFT(1, "بطل", "محارب", 1, {"attack": 10, "defense": 8, "health": 150})
+
+# Transfer ownership of the character NFT to another player
+character_nft.transfer(player_address)
+
+# List the character NFT for sale on a marketplace
+marketplace.list_nft(character_nft, price)
+
+
